@@ -34,6 +34,10 @@ module.exports = function getZerosCount(number, base) {
 
     }
 
+    let aa = Math.floor(getPower(powers.length-1, number, 1) / powers[powers.length-1])
+    countZero = aa;
+    return (countZero);
+
     for (dapower in powers) {
         dapower = Number(dapower)
         let a = Math.floor(getPower(dapower, number, 1) / powers[dapower])
