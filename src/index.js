@@ -1,75 +1,47 @@
+
+
 module.exports = function getZerosCount(number, base) {
-    console.log(number);
+    let result = {};
+    let maxPowers={};
+    let min=0;
+    OpenNum(base);
 
-    let countZero = 0;
-    let j = 1;
-    let i = 2;
-    let powers = [];
-    let results = [];
-
-    let a = new Array();
-    do {
-        if (base % i == 0) {
-            if (typeof powers[i] === 'undefined' && (i != base)) powers[i] = 1
-            else if (i != base) powers[i] += 1;
-            a[j] = i;
-            if (i != base) j++;
-            base = base / i;
-        }
-        else {
-            i++;
-        }
-    }
-    while (i < base);
-    a[j] = i;
-    if (typeof powers[i] === 'undefined') powers[i] = 1
-    else powers[i] += 1;
-
-
-    bbase = 0;
-    for (let i = 1; i < a.length; i++) {
-        if (a[i] === a[j]) {
-            bbase++
-        };
-
-    }
-
-    let aa = Math.floor(getPower(powers.length-1, number, 1) / powers[powers.length-1])
-    countZero = aa;
-    return (countZero);
-
-    for (dapower in powers) {
-        dapower = Number(dapower)
-        let a = Math.floor(getPower(dapower, number, 1) / powers[dapower])
-        results.push(a)
-    }
-
-    countZero = Math.min.apply(null, results);
-    return (countZero);
-
-
-    function getPower(pk, pnumber, debug=0) {
-        let cz = 0;
-        let i = 0;
-
-        for (i = pk; i <= pnumber; i = i + pk) {
-            let ii = i;
-            let j = 0;
-
-            do {
-
-                if (ii % pk == 0) {
-
-                    ii = ii / pk;
-                    j++;
-                }
+    function OpenNum(base) {
+        let i = 2;
+        let arr = [];
+        while (i <= base) {
+            if (base % i === 0) {
+                arr.push(i);
+                base = base / i;
             }
-            while (ii % pk == 0);
-            cz = cz + j;
-             }
+            else i++;
+        }
 
-        return cz;
-    }
+        for (let k = 0; k < arr.length; k++) {
+            result[arr[k]] = 0;
+            maxPowers[arr[k]]=0;
+        }
 
+        for (let k = 0; k < arr.length; k++) {
+            result[arr[k]] += 1;
+        }
+        let arrayOfPowers=[];
+        for (let key in maxPowers) {
+            maxPowers[key]=Math.floor(maxPowerOf(key,number)/result[key]);
+            arrayOfPowers.push(maxPowers[key]);
+        };
+        min=Math.min.apply(null, arrayOfPowers);
+    };
+    function maxPowerOf(p, number) {
+        let k = 0;
+        let powerOfP = 1;
+        while (true) {
+            powerOfP =  powerOfP*p;
+            let addend = Math.floor(number / powerOfP);
+            if (addend === 0)
+                return Math.floor(k);
+            k += addend;
+        }
+    };
+    return min;
 }
-
